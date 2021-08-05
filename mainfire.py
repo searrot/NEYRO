@@ -2,6 +2,7 @@ from selenium.webdriver import Chrome, Firefox
 from getpass import getpass
 from selenium.webdriver.common.keys import Keys
 from selenium import webdriver
+from selenium.webdriver.firefox.options import Options
 from selenium.common.exceptions import NoSuchElementException
 import urllib
 from tensorflow.keras.models import load_model
@@ -19,7 +20,9 @@ batch_size = 32
 image_size = (254, 254)
 model = load_model('crypto_checking_network.h5')
 
-driver = webdriver.Firefox(executable_path='/usr/local/bin/geckodriver')
+options = Options()
+options.headless = True
+driver = webdriver.Firefox(executable_path='/usr/local/bin/geckodriver', options=options)
 '''driver.get('https://twitter.com/login')
 time.sleep(2)
 username = driver.find_element_by_xpath('//input[@name="session[username_or_email]"]')
