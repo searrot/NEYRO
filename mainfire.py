@@ -112,6 +112,7 @@ def check_tweets(l_t):
     last_time = l_t
     global trigger
     while True:
+        driver.implicitly_wait(10)
         container:WebElement = driver.find_element_by_xpath('//div[@data-testid="tweet"]')
 
         #time.sleep(3)
@@ -131,7 +132,7 @@ def check_tweets(l_t):
                 os.remove(f'/projects/im/ims/{elem}')
         last_time = time_post
         driver.refresh()
-        time.sleep(3)
+        driver.implicitly_wait(5)
 
 check_tweets(last_time)
 '''while True:
