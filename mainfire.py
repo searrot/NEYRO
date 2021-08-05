@@ -19,7 +19,7 @@ batch_size = 32
 image_size = (254, 254)
 model = load_model('crypto_checking_network.h5')
 
-driver = webdriver.Firefox(executable_path='./projects/NEYRO/geckodriver')
+driver = webdriver.Firefox(executable_path='/usr/local/bin/geckodriver')
 '''driver.get('https://twitter.com/login')
 time.sleep(2)
 username = driver.find_element_by_xpath('//input[@name="session[username_or_email]"]')
