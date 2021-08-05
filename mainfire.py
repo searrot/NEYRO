@@ -49,13 +49,13 @@ def get_image(container):
         if len(images) < 2:
             imname = uuid.uuid4()
             src = images[0].get_attribute('src')
-            urllib.request.urlretrieve(src, f'D:/_PROGRAMMING/zakaz/neyro_fl/im/ims/{imname}.jpg')
+            urllib.request.urlretrieve(src, f'/projects/im/ims/{imname}.jpg')
             print('IMAGE SAVE SUCCESsS')
         else:
             for element in images:
                 imname = uuid.uuid4()
                 src = element.get_attribute('src')
-                urllib.request.urlretrieve(src, f'D:/_PROGRAMMING/zakaz/neyro_fl/im/ims/{imname}.jpg')
+                urllib.request.urlretrieve(src, f'/projects/im/ims/{imname}.jpg')
                 print('IMAGE SAVE SUCCESsS')
     except:
         print('ERROR SAVE IMAGE')
@@ -75,10 +75,10 @@ def get_text(card):
 def check_image_text():
     global trigger
     try:
-        images = os.listdir('D:/_PROGRAMMING/zakaz/neyro_fl/im/ims/')
+        images = os.listdir('/projects/im/ims/')
         for img in images:
             if not trigger:
-                img = cv2.imread(f'D:/_PROGRAMMING/zakaz/neyro_fl/im/ims/{img}')
+                img = cv2.imread(f'/projects/im/ims/{img}')
                 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
                 res = pytesseract.image_to_string(img)
                 res = res.lower()
@@ -92,7 +92,7 @@ def check_image_text():
 def check_image():
     global trigger
     try:
-        test_dataset = image_dataset_from_directory('D:/_PROGRAMMING/zakaz/neyro_fl/im/',
+        test_dataset = image_dataset_from_directory('/projects/im/',
                                                 batch_size=batch_size,
                                                 image_size=image_size)
         res = model.predict(test_dataset)
@@ -124,8 +124,8 @@ def check_tweets(l_t):
                 check_image()
                 check_image_text()
             trigger = False
-            for elem in os.listdir('D:/_PROGRAMMING/zakaz/neyro_fl/im/ims/'):
-                os.remove(f'D:/_PROGRAMMING/zakaz/neyro_fl/im/ims/{elem}')
+            for elem in os.listdir('/projects/im/ims/'):
+                os.remove(f'/projects/im/ims/{elem}')
         last_time = time_post
         driver.refresh()
         time.sleep(3)
