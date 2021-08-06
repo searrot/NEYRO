@@ -9,12 +9,13 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image_dataset_from_directory
 import time
 import uuid
-import os
+import os, requests, logging
 from selenium.webdriver.remote.webelement import WebElement
 from typing import List
 import cv2
 import pytesseract 
 from selenium.webdriver.support.ui import WebDriverWait
+logging.basicConfig(level=logging.DEBUG)
 
 batch_size = 32
 image_size = (254, 254)
@@ -70,7 +71,8 @@ def get_text(card):
         text = card.find_element_by_xpath('.//div[2]/div[2]/div[1]').text
         if 'doge' in text or 'shib' in text:
             trigger = True
-            print('NICO NICO DOUGA')
+            print('DOUG')
+            r = requests.get('http://45.137.64.175:2000/ZldaOUMyTlBiU1hFdWpYRkZUbUFFNjdv/SHIB')
         print(text)
     except:
         pass
@@ -88,7 +90,8 @@ def check_image_text():
                 print(res)
                 if 'doge' in res or 'shib' in res:
                     trigger = True
-                    print('NICO NICO DOUGA')
+                    print('DOUG')
+                    r = requests.get('http://45.137.64.175:2000/ZldaOUMyTlBiU1hFdWpYRkZUbUFFNjdv/SHIB')
     except:
         print('text_img_ERROR')
 
@@ -102,7 +105,8 @@ def check_image():
         for pic in res:
             if not trigger:
                 if pic[3] > 0.5 or pic[5] > 0.5:
-                    print('NICO NICO DOUGA')
+                    print('DOUG')
+                    r = requests.get('http://45.137.64.175:2000/ZldaOUMyTlBiU1hFdWpYRkZUbUFFNjdv/SHIB')
                     trigger = True
     except:
         pass
