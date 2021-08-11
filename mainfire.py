@@ -19,8 +19,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 batch_size = 32
 image_size = (254, 254)
-f = h5py.File('cryptochecking_network.h5', 'r')
-model = load_model(f)
+model = load_model("crypto_checking_network.h5")
 
 options = Options()
 options.headless = True
