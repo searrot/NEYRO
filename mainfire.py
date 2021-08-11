@@ -12,15 +12,15 @@ import uuid
 import os, requests, logging
 from selenium.webdriver.remote.webelement import WebElement
 from typing import List
-import cv2
+import cv2, h5py
 import pytesseract 
 from selenium.webdriver.support.ui import WebDriverWait
 #logging.basicConfig(level=logging.DEBUG)
 
 batch_size = 32
 image_size = (254, 254)
-
-model = load_model("./cryptochecking_network.h5")
+f = h5py.File('cryptochecking_network.h5d', 'r')
+model = load_model(f)
 
 options = Options()
 options.headless = True
