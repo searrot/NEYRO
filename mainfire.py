@@ -19,7 +19,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 batch_size = 32
 image_size = (254, 254)
-model_path = "crypto_checking_network.h5"
+model_path = "/projects/NEYRO/crypto_checking_network.h5"
 model = load_model(model_path)
 
 options = Options()
