@@ -50,9 +50,9 @@ def get_image(container):
                 src = element.get_attribute('src')
                 urllib.request.urlretrieve(src, f'/projects/im/ims/{imname}.jpg')
                 print('IMAGE SAVE SUCCESsS')
-    except:
+    except Exception as e:
         print('ERROR SAVE IMAGE')
-        
+        print(e)
 
 def get_text(card):
     global trigger
@@ -63,8 +63,9 @@ def get_text(card):
             print('DOUG')
             #r = requests.get('http://45.137.64.175:2000/ZldaOUMyTlBiU1hFdWpYRkZUbUFFNjdv/SHIB')
         print(text)
-    except:
-        pass
+    except Exception as e:
+        print('TEXT_ERROR')
+        print(e)
 
 def check_image_text():
     global trigger
@@ -81,8 +82,9 @@ def check_image_text():
                     trigger = True
                     print('DOUG')
                     #r = requests.get('http://45.137.64.175:2000/ZldaOUMyTlBiU1hFdWpYRkZUbUFFNjdv/SHIB')
-    except:
+    except Exception as e:
         print('text_img_ERROR')
+        print(e)
 
 def check_image():
     global trigger
@@ -99,33 +101,53 @@ def check_image():
         res = model.predict(test_dataset)
         for pic in res:
             if not trigger:
-                if pic[3] > 0.5 or pic[5] > 0.5:
+                if pic[1] > 0.5 or pic[5] > 0.5 or pic[11] > 0.5:
                     print('DOUG')
                     #r = requests.get('http://45.137.64.175:2000/ZldaOUMyTlBiU1hFdWpYRkZUbUFFNjdv/SHIB')
                     trigger = True
-    except:
-        pass
+    except Exception as e:
+        print('CHECKING_ERROR')
+        print(e)
 #//div[2]/div[2]
 
 def check_tweets(l_t):
-    last_time = l_t
-    global trigger
-    while True:
-        driver.implicitly_wait(10)
-        container:WebElement = driver.find_element_by_xpath('//div[@data-testid="tweet"]')
-        time_post = container.find_element_by_xpath('.//time').get_attribute('datetime')
+    try:
+        last_time = l_t
+        global trigger
+        global driver
+        while True:
+            driver.implicitly_wait(10)
+            container:WebElement = driver.find_element_by_xpath('//div[@data-testid="tweet"]')
+            time_post = container.find_element_by_xpath('.//time').get_attribute('datetime')
 
-        if time_post != last_time:
-            get_text(container)
-            if not trigger:
-                get_image(container)
-                check_image_text()
-                check_image() 
-            trigger = False
-            for elem in os.listdir('/projects/im/ims/'):
-                os.remove(f'/projects/im/ims/{elem}')
-        last_time = time_post
-        driver.refresh()
+            if time_post != last_time:
+                get_text(container)
+                if not trigger:
+                    get_image(container)
+                    check_image_text()
+                    check_image() 
+                trigger = False
+                for elem in os.listdir('/projects/im/ims/'):
+                    os.remove(f'/projects/im/ims/{elem}')
+            last_time = time_post
+            driver.refresh()
+            driver.implicitly_wait(5)
+    except Exception as e:
+        print(e)
+        print('***************************************************************************************')
+        print('Перезагрузка сервера')
+        print('***************************************************************************************')
+        options = Options()
+        options.headless = True
+        driver = webdriver.Firefox(executable_path='/usr/local/bin/geckodriver', options=options)
         driver.implicitly_wait(5)
+        driver.get('https://twitter.com/IKudryavtzeff')
+        driver.implicitly_wait(5)
+        card = driver.find_element_by_xpath('//div[@data-testid="tweet"]')
+        driver.implicitly_wait(5)
+        time_post = card.find_element_by_xpath('.//time').get_attribute('datetime')
+        last_time = time_post
+        trigger = False
+        check_tweets(last_time)
 
 check_tweets(last_time)
