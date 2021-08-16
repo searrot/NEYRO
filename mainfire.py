@@ -92,7 +92,7 @@ def check_image():
         images = os.listdir('/projects/im/ims/')
         for img in images:
             img = cv2.imread(f'/projects/im/ims/{img}')
-            img = cv2.resize(img, (224,224), interpolation=cv2.INTER_AREA)
+            img = cv2.resize(img, (254,254), interpolation=cv2.INTER_AREA)
             cv2.imwrite(f'/projects/im/ims/{img}.jpg', img)
 
         test_dataset = image_dataset_from_directory('/projects/im/',
